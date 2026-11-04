@@ -149,7 +149,7 @@
   .question p { margin: 0 0 10px 0; font-size: 1.05em; }
   .blank {
     display: inline-block;
-    min-width: 140px;
+    min-width: 120px;
     padding: 2px 8px;
     margin: 0 4px;
     background: rgba(201,162,39,0.2);
@@ -322,15 +322,15 @@
 </section>
 
 <section class="game-section" id="matchingGame">
-  <h2>Fill-in-the-Blank Matching Game</h2>
-  <p style="text-align:center; color:#ddd;">Click the correct option displayed under each statement to fill in the blank.</p>
-  <div class="score" id="score">Correct: 0 / 7</div>
+  <h2>Fill-in-the-Blank Review: Everything on the Sheets</h2>
+  <p style="text-align:center; color:#ddd;">Click the correct option under each statement to fill in the blank. Covers people, events, dates, and key facts from the notes.</p>
+  <div class="score" id="score">Correct: 0 / 0</div>
   <div id="questions"></div>
   <button class="reset-btn" id="resetGame">Reset Game</button>
 </section>
 
 <footer>
-  <p>Created for visual learners | High-quality narration | Click events to jump | Fill-in-the-Blank Game</p>
+  <p>Created for visual learners | High-quality narration | Click events to jump | Full Fill-in-the-Blank Review</p>
 </footer>
 
 <script>
@@ -392,7 +392,7 @@ const questions = [
     options: ["George Childress", "Lorenzo de Zavala", "Sam Houston", "William B. Travis"]
   },
   {
-    text: "______ helped write the first Texas Constitution and became the first vice president.",
+    text: "______ helped write the first Texas Constitution and became the first vice president of the Republic.",
     answer: "Lorenzo de Zavala",
     options: ["Lorenzo de Zavala", "Juan Seguín", "James Fannin", "Santa Anna"]
   },
@@ -412,7 +412,7 @@ const questions = [
     options: ["Santa Anna", "Sam Houston", "James Fannin", "William B. Travis"]
   },
   {
-    text: "______ was co-commander of the Alamo and wrote the “Victory or Death” letter.",
+    text: "______ was co-commander of the Alamo and wrote the “Victory or Death” letter to “All Americans of the World.”",
     answer: "William B. Travis",
     options: ["William B. Travis", "Juan Seguín", "George Childress", "James Fannin"]
   },
@@ -420,6 +420,101 @@ const questions = [
     text: "______ took a message from the Alamo seeking help and later led the Tejano unit at San Jacinto.",
     answer: "Juan Seguín",
     options: ["Juan Seguín", "Lorenzo de Zavala", "Sam Houston", "Santa Anna"]
+  },
+  {
+    text: "The Battle of Gonzales in October 1835 is known as the ______ battle of the Texas Revolution.",
+    answer: "first",
+    options: ["first", "last", "bloodiest", "longest"]
+  },
+  {
+    text: "At Gonzales, Texans flew a flag that said “______.”",
+    answer: "Come and Take It",
+    options: ["Come and Take It", "Remember the Alamo", "Victory or Death", "Remember Goliad"]
+  },
+  {
+    text: "Santa Anna’s army surrounded the Alamo for ______ days.",
+    answer: "13",
+    options: ["13", "18", "10", "21"]
+  },
+  {
+    text: "“______” became the main rallying cry after the fall of the Alamo.",
+    answer: "Remember the Alamo",
+    options: ["Remember the Alamo", "Come and Take It", "Victory or Death", "Remember Goliad"]
+  },
+  {
+    text: "William B. Travis signed his famous letter “______.”",
+    answer: "Victory or Death",
+    options: ["Victory or Death", "Remember the Alamo", "Come and Take It", "God and Texas"]
+  },
+  {
+    text: "The main defenders of the Alamo included Travis, James Bowie, David Crockett, and ______.",
+    answer: "Tejanos",
+    options: ["Tejanos", "only Anglo settlers", "Mexican regulars", "U.S. Army troops"]
+  },
+  {
+    text: "The survivor who carried news of the Alamo’s fall was Susanna ______.",
+    answer: "Dickinson",
+    options: ["Dickinson", "Houston", "Travis", "Bowie"]
+  },
+  {
+    text: "The Convention of 1836 met at ______-on-the-Brazos.",
+    answer: "Washington",
+    options: ["Washington", "Gonzales", "San Antonio", "Goliad"]
+  },
+  {
+    text: "At the Convention of 1836, delegates signed the Declaration of Independence and named ______ commander of the army.",
+    answer: "Sam Houston",
+    options: ["Sam Houston", "William B. Travis", "James Fannin", "Juan Seguín"]
+  },
+  {
+    text: "After the Battle of Coleto Creek, about ______ prisoners were executed at Goliad.",
+    answer: "340",
+    options: ["340", "180", "100", "500"]
+  },
+  {
+    text: "“______!” became a battle cry after the Goliad massacre.",
+    answer: "Remember Goliad",
+    options: ["Remember Goliad", "Remember the Alamo", "Come and Take It", "Victory or Death"]
+  },
+  {
+    text: "The Battle of San Jacinto lasted only ______ minutes.",
+    answer: "18",
+    options: ["18", "13", "30", "60"]
+  },
+  {
+    text: "At San Jacinto, Sam Houston’s army ______ Santa Anna’s camp.",
+    answer: "surprised",
+    options: ["surprised", "was surprised by", "besieged for days", "retreated from"]
+  },
+  {
+    text: "The Treaties of Velasco were signed on May 14, ______.",
+    answer: "1836",
+    options: ["1836", "1835", "1834", "1837"]
+  },
+  {
+    text: "In the Treaties of Velasco, Santa Anna agreed to a border at the ______.",
+    answer: "Rio Grande",
+    options: ["Rio Grande", "Nueces River", "Red River", "Sabine River"]
+  },
+  {
+    text: "The Mexican Congress later ______ the border agreement in the Treaties of Velasco.",
+    answer: "rejected",
+    options: ["rejected", "approved", "ignored completely", "expanded"]
+  },
+  {
+    text: "In the year ______, Texas gained its independence from Mexico.",
+    answer: "1836",
+    options: ["1836", "1835", "1845", "1821"]
+  },
+  {
+    text: "Federalists believed power should be ______ between state and national governments.",
+    answer: "shared",
+    options: ["shared", "concentrated in the national government", "given only to the states", "controlled by the army"]
+  },
+  {
+    text: "Centralists wanted power ______ in the national government.",
+    answer: "concentrated",
+    options: ["concentrated", "shared equally", "limited to local areas", "given to the settlers"]
   }
 ];
 
@@ -441,7 +536,7 @@ function initGame() {
   const container = document.getElementById('questions');
   container.innerHTML = '';
 
-  questions.forEach((q, idx) => {
+  questions.forEach((q) => {
     const div = document.createElement('div');
     div.className = 'question';
     div.dataset.answered = 'false';
@@ -476,7 +571,7 @@ function handleAnswer(btn, chosen, correct, questionDiv) {
     correctCount++;
     document.getElementById('score').textContent = `Correct: ${correctCount} / ${totalQ}`;
     if (correctCount === totalQ) {
-      setTimeout(() => alert('Excellent! You filled in all the blanks correctly!'), 400);
+      setTimeout(() => alert('Excellent! You completed the full review!'), 400);
     }
   } else {
     btn.classList.add('wrong');
