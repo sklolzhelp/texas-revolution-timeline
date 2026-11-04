@@ -1,1 +1,746 @@
-PLACEHOLDER
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Texas Revolution Timeline | Visual Learning</title>
+<style>
+  :root {
+    --primary: #8B0000;
+    --accent: #C9A227;
+    --dark: #1a1a1a;
+    --light: #f5f5f0;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Georgia', serif;
+    background: linear-gradient(135deg, #2c1810 0%, #1a0f0a 100%);
+    color: var(--light);
+    margin: 0;
+    padding: 20px;
+    line-height: 1.6;
+  }
+  header {
+    text-align: center;
+    padding: 24px 16px;
+    background: rgba(0,0,0,0.45);
+    border-radius: 16px;
+    margin-bottom: 16px;
+    border: 2px solid var(--accent);
+  }
+  h1 { color: var(--accent); font-size: 2em; margin: 0 0 6px 0; text-shadow: 2px 2px 4px #000; }
+  .subtitle { color: #ddd; font-size: 1em; margin-bottom: 12px; }
+  .player-box {
+    background: rgba(0,0,0,0.5);
+    padding: 12px;
+    border-radius: 10px;
+    margin: 10px auto;
+    max-width: 700px;
+  }
+  audio { width: 100%; margin-bottom: 8px; }
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+  button, select, input[type="range"] {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    font-size: 0.95em;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  button:hover { background: #a00; }
+  label { font-size: 0.9em; color: #ddd; }
+  .timeline {
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 10px 0;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 28px;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--accent);
+  }
+  .event {
+    position: relative;
+    margin: 20px 0 20px 70px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 16px;
+    border-left: 4px solid var(--primary);
+    opacity: 0.5;
+    transform: translateX(-15px);
+    transition: all 0.5s ease;
+    cursor: pointer;
+  }
+  .event.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  .event.active {
+    background: rgba(201, 162, 39, 0.22);
+    border-left-color: var(--accent);
+    box-shadow: 0 0 18px rgba(201, 162, 39, 0.35);
+  }
+  .event:hover {
+    background: rgba(255,255,255,0.12);
+  }
+  .event::before {
+    content: '';
+    position: absolute;
+    left: -52px;
+    top: 18px;
+    width: 16px;
+    height: 16px;
+    background: var(--accent);
+    border-radius: 50%;
+    border: 3px solid #fff;
+    transition: transform 0.3s;
+  }
+  .event.active::before {
+    transform: scale(1.4);
+    background: #ffd700;
+  }
+  .event h2 { margin-top: 0; color: var(--accent); font-size: 1.3em; }
+  .date { font-weight: bold; color: #ffd700; font-size: 1em; }
+  .event img {
+    max-width: 100%;
+    border-radius: 8px;
+    margin: 10px 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  }
+  .people {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .person {
+    background: rgba(139,0,0,0.3);
+    padding: 10px;
+    border-radius: 8px;
+  }
+  .game-section {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 16px;
+    border: 1px solid var(--accent);
+  }
+  .game-section h2 { color: var(--accent); text-align: center; margin-top: 0; }
+  .question {
+    background: rgba(0,0,0,0.3);
+    padding: 16px;
+    margin: 14px 0;
+    border-radius: 10px;
+    border-left: 4px solid var(--primary);
+  }
+  .question p { margin: 0 0 10px 0; font-size: 1.05em; }
+  .blank {
+    display: inline-block;
+    min-width: 120px;
+    padding: 2px 8px;
+    margin: 0 4px;
+    background: rgba(201,162,39,0.2);
+    border-bottom: 2px solid var(--accent);
+    color: #ffd700;
+    font-weight: bold;
+  }
+  .options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .option {
+    background: rgba(139,0,0,0.35);
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 2px solid transparent;
+  }
+  .option:hover { background: rgba(139,0,0,0.55); }
+  .option.correct { background: rgba(0,128,0,0.5); border-color: #4caf50; cursor: default; }
+  .option.wrong { animation: shake 0.35s; background: rgba(180,0,0,0.5); }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+  }
+  .score { text-align: center; font-size: 1.1em; margin: 10px 0; color: #ffd700; }
+  .reset-btn { display: block; margin: 15px auto; }
+  .type-mode .options { display: none; }
+  .type-answer {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+    align-items: center;
+  }
+  .type-answer input {
+    flex: 1;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #666;
+    background: rgba(0,0,0,0.4);
+    color: white;
+    font-size: 1em;
+  }
+  .type-answer button {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .type-answer button:hover { background: #a00; }
+  .feedback { margin-left: 8px; font-weight: bold; }
+  .feedback.ok { color: #4caf50; }
+  .feedback.bad { color: #f44336; }
+  footer {
+    text-align: center;
+    margin-top: 30px;
+    padding: 12px;
+    color: #aaa;
+    font-size: 0.85em;
+  }
+  .hint { font-size: 0.85em; color: #ccc; margin-top: 6px; }
+  @media (max-width: 600px) {
+    .timeline::before { left: 12px; }
+    .event { margin-left: 42px; }
+    .event::before { left: -38px; }
+    .controls { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Texas Revolution Timeline</h1>
+  <p class="subtitle">1826 – 1836 | Click any event to jump • High-quality narration</p>
+  <div class="player-box">
+    <audio id="narration" controls preload="auto">
+      <source src="texas-revolution-narration.mp3?v=1" type="audio/mpeg">
+      <source src="texas-revolution-narration.mp3?v=1" type="audio/mp3">
+      Your browser does not support the audio element.
+    </audio>
+    <div class="controls">
+      <label>Speed: <input type="range" id="rateSlider" min="0.5" max="1.5" step="0.05" value="1"> <span id="rateValue">1.0×</span></label>
+    </div>
+    <p class="hint">Click any event below to skip to that part of the story. The timeline highlights and follows the narration live.</p>
+  </div>
+</header>
+
+<div class="timeline" id="timeline">
+
+  <div class="event" data-start="2">
+    <h2>Rising Tensions: Fredonian Rebellion</h2>
+    <p class="date">1826–1827</p>
+    <p>Empresario Haden Edwards tried to secede from Mexico after a land grant dispute. The rebellion failed, but it marked the first serious talk of Texas separating from Mexico.</p>
+  </div>
+
+  <div class="event" data-start="22">
+    <h2>Mier y Terán Report</h2>
+    <p class="date">1828–1829</p>
+    <p>General Mier y Terán reported that most people in East Texas were from the U.S., did not speak Spanish, and did not practice Catholicism. He recommended more Mexican troops, immigration, and trade — leading to the Law of April 6, 1830.</p>
+  </div>
+
+  <div class="event" data-start="48">
+    <h2>Law of April 6, 1830</h2>
+    <p class="date">April 6, 1830</p>
+    <p>Banned U.S. immigration to Texas, made bringing slaves illegal, and imposed tariffs. Settlers who depended on trade and family immigration were furious.</p>
+  </div>
+
+  <div class="event" data-start="68">
+    <h2>Trouble at Anahuac & Turtle Bayou Resolutions</h2>
+    <p class="date">1832</p>
+    <p>Tensions over tariffs led to arrests including William B. Travis. Texans wrote the Turtle Bayou Resolutions pledging loyalty to Santa Anna, Mexico, and the Constitution of 1824.</p>
+  </div>
+
+  <div class="event" data-start="92">
+    <h2>Santa Anna Becomes Dictator</h2>
+    <p class="date">1833</p>
+    <p>Elected as a federalist, Santa Anna later switched to centralism, concentrating power in Mexico City and becoming a dictator. This destroyed hopes of shared power.</p>
+  </div>
+
+  <div class="event" data-start="110">
+    <h2>Arrest of Stephen F. Austin</h2>
+    <p class="date">1833–1834</p>
+    <p>Austin suggested Texas become its own state. He was arrested for treason and jailed ~8 months. After release, he concluded reconciliation with Santa Anna was impossible.</p>
+  </div>
+
+  <div class="event" data-start="135">
+    <h2>Battle of Gonzales — “Come and Take It”</h2>
+    <p class="date">October 2, 1835</p>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Come_and_take_it_flag.svg/1280px-Come_and_take_it_flag.svg.png" alt="Come and Take It flag" onerror="this.style.display='none'">
+    <p>Mexico tried to reclaim a cannon loaned to Gonzales. Texans raised the famous “Come and Take It” flag and fired the first shots of the Revolution. This was the opening battle.</p>
+  </div>
+
+  <div class="event" data-start="160">
+    <h2>Siege of the Alamo</h2>
+    <p class="date">February 23 – March 6, 1836</p>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/3/30/Fall-of-the-alamo-gentilz_1844.jpg" alt="Fall of the Alamo painting by Gentilz 1844">
+    <p>Santa Anna surrounded the Alamo for 13 days. Nearly all defenders were killed. The delay gave the Texas government time to organize. “Remember the Alamo!” became the ultimate rallying cry.</p>
+  </div>
+
+  <div class="event" data-start="190">
+    <h2>Travis’s Letter — “Victory or Death”</h2>
+    <p class="date">February 24, 1836</p>
+    <p>William B. Travis wrote to “All Americans of the World,” asking for reinforcements, vowing never to surrender, and signing “Victory or Death.” The letter inspired patriotism across Texas and the U.S.</p>
+  </div>
+
+  <div class="event" data-start="210">
+    <h2>Defenders of the Alamo</h2>
+    <p>Travis, James Bowie, David Crockett, and Tejanos defended the mission. Survivor Susanna Dickinson carried the news of the fall. Their sacrifice became a powerful symbol of the fight for independence.</p>
+  </div>
+
+  <div class="event" data-start="230">
+    <h2>Convention of 1836 & Declaration of Independence</h2>
+    <p class="date">March 1836 — Washington-on-the-Brazos</p>
+    <p>Delegates signed the Texas Declaration of Independence (authored by George Childress) and named Sam Houston commander of the army. This created the Republic of Texas with an interim government. Lorenzo de Zavala helped write the first Constitution and became the first vice president.</p>
+  </div>
+
+  <div class="event" data-start="260">
+    <h2>Goliad Massacre</h2>
+    <p class="date">March 1836</p>
+    <p>After surrendering at the Battle of Coleto Creek, James Fannin and about 340 prisoners were executed at Goliad. “Remember Goliad!” became another battle cry that strengthened Texan resolve.</p>
+  </div>
+
+  <div class="event" data-start="285">
+    <h2>Battle of San Jacinto</h2>
+    <p class="date">April 21, 1836</p>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Sam_Houston_at_San_Jacinto.jpg/1280px-Sam_Houston_at_San_Jacinto.jpg" alt="Sam Houston at San Jacinto">
+    <p>Sam Houston surprised Santa Anna’s camp. The battle lasted only 18 minutes. Santa Anna was captured. This decisive last battle secured Texas independence. Juan Seguín led the Tejano unit and had earlier carried a message for help from the Alamo.</p>
+  </div>
+
+  <div class="event" data-start="315">
+    <h2>Treaties of Velasco</h2>
+    <p class="date">May 14, 1836</p>
+    <p>Santa Anna agreed to withdraw Mexican troops and to support Texas independence with a border at the Rio Grande. The Mexican Congress later rejected the border terms, but the war was effectively over.</p>
+  </div>
+
+  <div class="event" data-start="340">
+    <h2>Why 1836 Matters</h2>
+    <p>In 1836, Texas gained its independence from Mexico and became the Republic of Texas. The sacrifices at the Alamo and Goliad, and the victory at San Jacinto, created a new nation that would later join the United States.</p>
+  </div>
+
+</div>
+
+<section style="max-width:900px;margin:30px auto;padding:16px;background:rgba(255,255,255,0.05);border-radius:12px;">
+  <h2 style="color:var(--accent);text-align:center;">Key People of the Revolution</h2>
+  <div class="people">
+    <div class="person"><strong>George Childress</strong><br>Author of the Texas Declaration of Independence</div>
+    <div class="person"><strong>Lorenzo de Zavala</strong><br>Helped write the first Texas Constitution; first vice president</div>
+    <div class="person"><strong>James Fannin</strong><br>Captured at Coleto Creek and executed at Goliad</div>
+    <div class="person"><strong>Sam Houston</strong><br>Commander of the Texan Army; defeated Santa Anna at San Jacinto</div>
+    <div class="person"><strong>Santa Anna</strong><br>Dictator of Mexico; led the siege of the Alamo; signed the Treaties of Velasco</div>
+    <div class="person"><strong>William B. Travis</strong><br>Co-commander of the Alamo; wrote the “Victory or Death” letter</div>
+    <div class="person"><strong>Juan Seguín</strong><br>Carried message from the Alamo; led Tejano unit at San Jacinto</div>
+  </div>
+</section>
+
+<section class="game-section" id="matchingGame">
+  <h2>Fill-in-the-Blank Review: Everything on the Sheets</h2>
+  <p style="text-align:center; color:#ddd;">Click the correct option under each statement to fill in the blank. Or turn on Hard mode to type the answers yourself (like the real test).</p>
+  <div style="text-align:center; margin: 10px 0;">
+    <label style="font-size:1.05em; cursor:pointer;">
+      <input type="checkbox" id="hardMode" style="transform:scale(1.3); margin-right:8px;">
+      Hard mode: type your own answers (no options)
+    </label>
+  </div>
+  <div class="score" id="score">Correct: 0 / 0</div>
+  <div id="questions"></div>
+  <button class="reset-btn" id="resetGame">Reset Game</button>
+</section>
+
+<footer>
+  <p>Created for visual learners | High-quality narration | Click events to jump | Full Fill-in-the-Blank Review</p>
+</footer>
+
+<script>
+const audio = document.getElementById('narration');
+const rateSlider = document.getElementById('rateSlider');
+const rateValue = document.getElementById('rateValue');
+const events = document.querySelectorAll('.event');
+
+rateSlider.addEventListener('input', () => {
+  const rate = parseFloat(rateSlider.value);
+  audio.playbackRate = rate;
+  rateValue.textContent = rate.toFixed(2) + '×';
+});
+
+events.forEach(el => {
+  el.addEventListener('click', () => {
+    const start = parseFloat(el.dataset.start);
+    audio.currentTime = start;
+    if (audio.paused) audio.play();
+    highlightCurrent();
+  });
+});
+
+function highlightCurrent() {
+  const t = audio.currentTime;
+  let active = null;
+  events.forEach(el => {
+    const start = parseFloat(el.dataset.start);
+    el.classList.remove('active');
+    if (start <= t) active = el;
+  });
+  if (active) {
+    active.classList.add('active');
+    const rect = active.getBoundingClientRect();
+    if (rect.top < 80 || rect.bottom > window.innerHeight - 40) {
+      active.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+}
+
+audio.addEventListener('timeupdate', highlightCurrent);
+audio.addEventListener('seeked', highlightCurrent);
+audio.addEventListener('play', highlightCurrent);
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.15 });
+
+events.forEach(el => observer.observe(el));
+
+const questions = [
+  {
+    text: "In the Fredonian Rebellion, empresario ______ tried to secede from Mexico after a dispute over land grants.",
+    answer: "Haden Edwards",
+    options: ["Haden Edwards", "Stephen F. Austin", "William B. Travis", "Sam Houston"]
+  },
+  {
+    text: "The Fredonian Rebellion failed, but it marked the first serious talk of Texas ______ from Mexico.",
+    answer: "separating",
+    options: ["separating", "joining", "trading with", "allying with"]
+  },
+  {
+    text: "The Mier y Terán Report noted that most people in East Texas were from the ______.",
+    answer: "U.S.",
+    options: ["U.S.", "Mexico", "Europe only", "Spain"]
+  },
+  {
+    text: "According to the Mier y Terán Report, many settlers did not speak ______ or practice Catholicism.",
+    answer: "Spanish",
+    options: ["Spanish", "English", "French", "German"]
+  },
+  {
+    text: "Mier y Terán recommended sending more ______, more Mexican and European immigration, and more trade.",
+    answer: "troops",
+    options: ["troops", "settlers from the U.S.", "slaves", "weapons only"]
+  },
+  {
+    text: "The Law of April 6, 1830 banned U.S. ______, made bringing slaves illegal, and placed tariffs on U.S. imports.",
+    answer: "immigration",
+    options: ["immigration", "trade", "religion", "language"]
+  },
+  {
+    text: "Settlers depended on ______, wanted family to come, and feared slavery would be outlawed after the Law of April 6, 1830.",
+    answer: "trade",
+    options: ["trade", "the military", "the church", "Mexico City"]
+  },
+  {
+    text: "Trouble at Anahuac involved tension over ______ and the arrests of William B. Travis and Patrick Jack.",
+    answer: "tariffs",
+    options: ["tariffs", "land grants", "religion", "slavery"]
+  },
+  {
+    text: "After the skirmish at Anahuac, Texans retreated to ______ where the Resolutions were written.",
+    answer: "Turtle Bayou",
+    options: ["Turtle Bayou", "San Antonio", "Gonzales", "Goliad"]
+  },
+  {
+    text: "The Turtle Bayou Resolutions explained why settlers rebelled at ______.",
+    answer: "Anahuac",
+    options: ["Anahuac", "Gonzales", "the Alamo", "San Jacinto"]
+  },
+  {
+    text: "In the Turtle Bayou Resolutions, Texans pledged loyalty to Santa Anna, Mexico, and the Constitution of ______.",
+    answer: "1824",
+    options: ["1824", "1830", "1810", "1845"]
+  },
+  {
+    text: "Santa Anna was elected president in 1833 as a ______.",
+    answer: "federalist",
+    options: ["federalist", "centralist", "dictator", "royalist"]
+  },
+  {
+    text: "Santa Anna later switched to the ______ party and became a dictator.",
+    answer: "centralist",
+    options: ["centralist", "federalist", "liberal", "conservative"]
+  },
+  {
+    text: "Stephen F. Austin suggested Texas form its own ______ government and was arrested for treason.",
+    answer: "state",
+    options: ["state", "national", "military", "religious"]
+  },
+  {
+    text: "Austin was jailed for about ______ months.",
+    answer: "8",
+    options: ["8", "4", "12", "2"]
+  },
+  {
+    text: "After his release, Austin decided Santa Anna was a ______ and reconciliation was no longer an option.",
+    answer: "dictator",
+    options: ["dictator", "ally", "federalist", "friend"]
+  },
+  {
+    text: "Centralists believed power should be ______ in the national government.",
+    answer: "concentrated",
+    options: ["concentrated", "shared", "limited", "divided equally"]
+  },
+  {
+    text: "Federalists believed power should be ______ between state and national governments.",
+    answer: "shared",
+    options: ["shared", "concentrated", "given only to the states", "controlled by the army"]
+  },
+  {
+    text: "______ was the author of the Texas Declaration of Independence.",
+    answer: "George Childress",
+    options: ["George Childress", "Lorenzo de Zavala", "Sam Houston", "William B. Travis"]
+  },
+  {
+    text: "______ helped write the first Texas Constitution and became the first vice president of the Republic.",
+    answer: "Lorenzo de Zavala",
+    options: ["Lorenzo de Zavala", "Juan Seguín", "James Fannin", "Santa Anna"]
+  },
+  {
+    text: "______ was captured at Coleto Creek and executed at Goliad.",
+    answer: "James Fannin",
+    options: ["James Fannin", "William B. Travis", "Sam Houston", "Juan Seguín"]
+  },
+  {
+    text: "______ was the commander of the Texan Army and defeated Santa Anna at San Jacinto.",
+    answer: "Sam Houston",
+    options: ["Sam Houston", "Santa Anna", "George Childress", "Lorenzo de Zavala"]
+  },
+  {
+    text: "______ was the dictator of Mexico, laid siege to the Alamo, and signed the Treaty of Velasco.",
+    answer: "Santa Anna",
+    options: ["Santa Anna", "Sam Houston", "James Fannin", "William B. Travis"]
+  },
+  {
+    text: "______ was co-commander of the Alamo and wrote the “Victory or Death” letter to “All Americans of the World.”",
+    answer: "William B. Travis",
+    options: ["William B. Travis", "Juan Seguín", "George Childress", "James Fannin"]
+  },
+  {
+    text: "______ took a message from the Alamo seeking help and later led the Tejano unit at San Jacinto.",
+    answer: "Juan Seguín",
+    options: ["Juan Seguín", "Lorenzo de Zavala", "Sam Houston", "Santa Anna"]
+  },
+  {
+    text: "The Battle of Gonzales in October 1835 is known as the ______ battle of the Texas Revolution.",
+    answer: "first",
+    options: ["first", "last", "bloodiest", "longest"]
+  },
+  {
+    text: "At Gonzales, Texans flew a flag that said “______.”",
+    answer: "Come and Take It",
+    options: ["Come and Take It", "Remember the Alamo", "Victory or Death", "Remember Goliad"]
+  },
+  {
+    text: "Santa Anna’s army surrounded the Alamo for ______ days.",
+    answer: "13",
+    options: ["13", "18", "10", "21"]
+  },
+  {
+    text: "“______” became the main rallying cry after the fall of the Alamo.",
+    answer: "Remember the Alamo",
+    options: ["Remember the Alamo", "Come and Take It", "Victory or Death", "Remember Goliad"]
+  },
+  {
+    text: "William B. Travis signed his famous letter “______.”",
+    answer: "Victory or Death",
+    options: ["Victory or Death", "Remember the Alamo", "Come and Take It", "God and Texas"]
+  },
+  {
+    text: "The main defenders of the Alamo included Travis, James Bowie, David Crockett, and ______.",
+    answer: "Tejanos",
+    options: ["Tejanos", "only Anglo settlers", "Mexican regulars", "U.S. Army troops"]
+  },
+  {
+    text: "The survivor who carried news of the Alamo’s fall was Susanna ______.",
+    answer: "Dickinson",
+    options: ["Dickinson", "Houston", "Travis", "Bowie"]
+  },
+  {
+    text: "The Convention of 1836 met at ______-on-the-Brazos.",
+    answer: "Washington",
+    options: ["Washington", "Gonzales", "San Antonio", "Goliad"]
+  },
+  {
+    text: "At the Convention of 1836, delegates signed the Declaration of Independence and named ______ commander of the army.",
+    answer: "Sam Houston",
+    options: ["Sam Houston", "William B. Travis", "James Fannin", "Juan Seguín"]
+  },
+  {
+    text: "After the Battle of Coleto Creek, about ______ prisoners were executed at Goliad.",
+    answer: "340",
+    options: ["340", "180", "100", "500"]
+  },
+  {
+    text: "“______!” became a battle cry after the Goliad massacre.",
+    answer: "Remember Goliad",
+    options: ["Remember Goliad", "Remember the Alamo", "Come and Take It", "Victory or Death"]
+  },
+  {
+    text: "The Battle of San Jacinto lasted only ______ minutes.",
+    answer: "18",
+    options: ["18", "13", "30", "60"]
+  },
+  {
+    text: "At San Jacinto, Sam Houston’s army ______ Santa Anna’s camp.",
+    answer: "surprised",
+    options: ["surprised", "was surprised by", "besieged for days", "retreated from"]
+  },
+  {
+    text: "The Treaties of Velasco were signed on May 14, ______.",
+    answer: "1836",
+    options: ["1836", "1835", "1834", "1837"]
+  },
+  {
+    text: "In the Treaties of Velasco, Santa Anna agreed to a border at the ______.",
+    answer: "Rio Grande",
+    options: ["Rio Grande", "Nueces River", "Red River", "Sabine River"]
+  },
+  {
+    text: "The Mexican Congress later ______ the border agreement in the Treaties of Velasco.",
+    answer: "rejected",
+    options: ["rejected", "approved", "ignored completely", "expanded"]
+  },
+  {
+    text: "In the year ______, Texas gained its independence from Mexico.",
+    answer: "1836",
+    options: ["1836", "1835", "1845", "1821"]
+  }
+];
+
+let correctCount = 0;
+const totalQ = questions.length;
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function initGame() {
+  correctCount = 0;
+  document.getElementById('score').textContent = `Correct: 0 / ${totalQ}`;
+  const container = document.getElementById('questions');
+  container.innerHTML = '';
+  const hard = document.getElementById('hardMode').checked;
+  container.classList.toggle('type-mode', hard);
+
+  questions.forEach((q) => {
+    const div = document.createElement('div');
+    div.className = 'question';
+    div.dataset.answered = 'false';
+
+    const p = document.createElement('p');
+    p.innerHTML = q.text.replace('______', '<span class="blank">______</span>');
+    div.appendChild(p);
+
+    if (!hard) {
+      const opts = document.createElement('div');
+      opts.className = 'options';
+      const shuffled = shuffle(q.options);
+      shuffled.forEach(optText => {
+        const btn = document.createElement('div');
+        btn.className = 'option';
+        btn.textContent = optText;
+        btn.addEventListener('click', () => handleAnswer(btn, optText, q.answer, div));
+        opts.appendChild(btn);
+      });
+      div.appendChild(opts);
+    } else {
+      const typeBox = document.createElement('div');
+      typeBox.className = 'type-answer';
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.placeholder = 'Type your answer...';
+      const checkBtn = document.createElement('button');
+      checkBtn.textContent = 'Check';
+      const feedback = document.createElement('span');
+      feedback.className = 'feedback';
+      checkBtn.addEventListener('click', () => checkTyped(input, q.answer, div, feedback));
+      input.addEventListener('keydown', (e) => { if (e.key === 'Enter') checkTyped(input, q.answer, div, feedback); });
+      typeBox.appendChild(input);
+      typeBox.appendChild(checkBtn);
+      typeBox.appendChild(feedback);
+      div.appendChild(typeBox);
+    }
+    container.appendChild(div);
+  });
+}
+
+function handleAnswer(btn, chosen, correct, questionDiv) {
+  if (questionDiv.dataset.answered === 'true') return;
+  const blank = questionDiv.querySelector('.blank');
+  if (chosen === correct) {
+    btn.classList.add('correct');
+    blank.textContent = correct;
+    blank.style.color = '#4caf50';
+    questionDiv.dataset.answered = 'true';
+    correctCount++;
+    document.getElementById('score').textContent = `Correct: ${correctCount} / ${totalQ}`;
+    if (correctCount === totalQ) {
+      setTimeout(() => alert('Excellent! You completed the full review!'), 400);
+    }
+  } else {
+    btn.classList.add('wrong');
+    setTimeout(() => btn.classList.remove('wrong'), 400);
+  }
+}
+
+function checkTyped(input, correct, questionDiv, feedback) {
+  if (questionDiv.dataset.answered === 'true') return;
+  const typed = input.value.trim().toLowerCase();
+  const expected = correct.trim().toLowerCase();
+  const blank = questionDiv.querySelector('.blank');
+  if (typed === expected) {
+    blank.textContent = correct;
+    blank.style.color = '#4caf50';
+    feedback.textContent = 'Correct!';
+    feedback.className = 'feedback ok';
+    questionDiv.dataset.answered = 'true';
+    input.disabled = true;
+    correctCount++;
+    document.getElementById('score').textContent = `Correct: ${correctCount} / ${totalQ}`;
+    if (correctCount === totalQ) {
+      setTimeout(() => alert('Excellent! You completed the full review!'), 400);
+    }
+  } else {
+    feedback.textContent = 'Try again';
+    feedback.className = 'feedback bad';
+    setTimeout(() => { feedback.textContent = ''; }, 1200);
+  }
+}
+
+document.getElementById('resetGame').addEventListener('click', initGame);
+document.getElementById('hardMode').addEventListener('change', initGame);
+initGame();
+</script>
+</body>
+</html>
