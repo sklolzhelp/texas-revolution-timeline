@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Texas Revolution Timeline | Visual Learning</title>
+<style>
+  :root {
+    --primary: #8B0000;
+    --accent: #C9A227;
+    --dark: #1a1a1a;
+    --light: #f5f5f0;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Georgia', serif;
+    background: linear-gradient(135deg, #2c1810 0%, #1a0f0a 100%);
+    color: var(--light);
+    margin: 0;
+    padding: 20px;
+    line-height: 1.6;
+  }
+  header {
+    text-align: center;
+    padding: 40px 20px;
+    background: rgba(0,0,0,0.4);
+    border-radius: 16px;
+    margin-bottom: 30px;
+    border: 2px solid var(--accent);
+  }
+  h1 { color: var(--accent); font-size: 2.5em; margin: 0; text-shadow: 2px 2px 4px #000; }
+  .subtitle { color: #ddd; font-size: 1.2em; }
+  .controls { text-align: center; margin: 20px 0; }
+  button {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 1.1em;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 0 10px;
+    transition: transform 0.2s, background 0.2s;
+  }
+  button:hover { background: #a00; transform: scale(1.05); }
+  .timeline {
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px 0;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 30px;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--accent);
+  }
+  .event {
+    position: relative;
+    margin: 40px 0 40px 80px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 20px;
+    border-left: 4px solid var(--primary);
+    opacity: 0;
+    transform: translateX(-30px);
+    animation: slideIn 0.8s forwards;
+  }
+  @keyframes slideIn {
+    to { opacity: 1; transform: translateX(0); }
+  }
+  .event::before {
+    content: '';
+    position: absolute;
+    left: -58px;
+    top: 20px;
+    width: 20px;
+    height: 20px;
+    background: var(--accent);
+    border-radius: 50%;
+    border: 3px solid #fff;
+  }
+  .event h2 { margin-top: 0; color: var(--accent); }
+  .date { font-weight: bold; color: #ffd700; font-size: 1.1em; }
+  .event img {
+    max-width: 100%;
+    border-radius: 8px;
+    margin: 15px 0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+  }
+  .people {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+  }
+  .person {
+    background: rgba(139,0,0,0.3);
+    padding: 15px;
+    border-radius: 8px;
+  }
+  footer {
+    text-align: center;
+    margin-top: 50px;
+    padding: 20px;
+    color: #aaa;
+  }
+  @media (max-width: 600px) {
+    .timeline::before { left: 15px; }
+    .event { margin-left: 50px; }
+    .event::before { left: -43px; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Texas Revolution Timeline</h1>
+  <p class="subtitle">1826 – 1836 | A Visual Journey to Independence</p>
+  <div class="controls">
+    <button id="playBtn">▶ Play Voiceover Narration</button>
+    <button id="stopBtn">⏹ Stop</button>
+  </div>
+</header>
+
+<div class="timeline" id="timeline">
+
+  <div class="event">
+    <h2>Rising Tensions: Fredonian Rebellion</h2>
+    <p class="date">1826–1827</p>
+    <p>Empresario Haden Edwards tried to secede from Mexico after a land grant dispute. The rebellion failed, but it marked the first serious talk of Texas separating from Mexico.</p>
+  </div>
+
+  <div class="event">
+    <h2>Mier y Terán Report</h2>
+    <p class="date">1828–1829</p>
+    <p>General Mier y Terán reported that most people in East Texas were from the U.S., did not speak Spanish, and did not practice Catholicism. He recommended more Mexican troops, immigration, and trade — leading to the Law of April 6, 1830.</p>
+  </div>
+
+  <div class="event">
+    <h2>Law of April 6, 1830</h2>
+    <p class="date">April 6, 1830</p>
+    <p>Banned U.S. immigration to Texas, made bringing slaves illegal, and imposed tariffs. Settlers who depended on trade and family immigration were furious.</p>
+  </div>
+
+  <div class="event">
+    <h2>Trouble at Anahuac & Turtle Bayou Resolutions</h2>
+    <p class="date">1832</p>
+    <p>Tensions over tariffs led to arrests including William B. Travis. Texans wrote the Turtle Bayou Resolutions pledging loyalty to Santa Anna, Mexico, and the Constitution of 1824.</p>
+  </div>
+
+  <div class="event">
+    <h2>Santa Anna Becomes Dictator</h2>
+    <p class="date">1833</p>
+    <p>Elected as a federalist, Santa Anna later switched to centralism, concentrating power in Mexico City and becoming a dictator. This destroyed hopes of shared power.</p>
+  </div>
+
+  <div class="event">
+    <h2>Arrest of Stephen F. Austin</h2>
+    <p class="date">1833–1834</p>
+    <p>Austin suggested Texas become its own state. He was arrested for treason and jailed ~8 months. After release, he concluded reconciliation with Santa Anna was impossible.</p>
+  </div>
+
+  <div class="event">
+    <h2>Battle of Gonzales — “Come and Take It”</h2>
+    <p class="date">October 2, 1835</p>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Come_and_take_it_flag.svg/1280px-Come_and_take_it_flag.svg.png" alt="Come and Take It flag" onerror="this.style.display='none'">
+    <p>Mexico tried to reclaim a cannon loaned to Gonzales. Texans raised the famous “Come and Take It” flag and fired the first shots of the Revolution. This was the opening battle.</p>
+  </div>
+
+  <div class="event">
+    <h2>Siege of the Alamo</h2>
+    <p class="date">February 23 – March 6, 1836</p>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/3/30/Fall-of-the-alamo-gentilz_1844.jpg" alt="Fall of the Alamo painting by Gentilz 1844">
+    <p>Santa Anna surrounded the Alamo for 13 days. Nearly all defenders were killed. The delay gave the Texas government time to organize. “Remember the Alamo!” became the ultimate rallying cry.</p>
+  </div>
+
+  <div class="event">
+    <h2>Travis’s Letter — “Victory or Death”</h2>
+    <p class="date">February 24, 1836</p>
+    <p>William B. Travis wrote to “All Americans of the World,” asking for reinforcements, vowing never to surrender, and signing “Victory or Death.” The letter inspired patriotism across Texas and the U.S.</p>
+  </div>
+
+  <div class="event">
+    <h2>Defenders of the Alamo</h2>
+    <p>Travis, James Bowie, David Crockett, and Tejanos defended the mission. Survivor Susanna Dickinson carried the news of the fall. Their sacrifice became a powerful symbol of the fight for independence.</p>
+  </div>
+
+  <div class="event">
+    <h2>Convention of 1836 & Declaration of Independence</h2>
+    <p class="date">March 1836 — Washington-on-the-Brazos</p>
+    <p>Delegates signed the Texas Declaration of Independence (authored by George Childress) and named Sam Houston commander of the army. This created the Republic of Texas with an interim government. Lorenzo de Zavala helped write the first Constitution and became the first vice president.</p>
+  </div>
+
+  <div class="event">
+    <h2>Goliad Massacre</h2>
+    <p class="date">March 1836</p>
+    <p>After surrendering at the Battle of Coleto Creek, James Fannin and about 340 prisoners were executed at Goliad. “Remember Goliad!” became another battle cry that strengthened Texan resolve.</p>
+  </div>
+
+  <div class="event">
+    <h2>Battle of San Jacinto</h2>
+    <p class="date">April 21, 1836</p>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Sam_Houston_at_San_Jacinto.jpg/1280px-Sam_Houston_at_San_Jacinto.jpg" alt="Sam Houston at San Jacinto">
+    <p>Sam Houston surprised Santa Anna’s camp. The battle lasted only 18 minutes. Santa Anna was captured. This decisive last battle secured Texas independence. Juan Seguín led the Tejano unit and had earlier carried a message for help from the Alamo.</p>
+  </div>
+
+  <div class="event">
+    <h2>Treaties of Velasco</h2>
+    <p class="date">May 14, 1836</p>
+    <p>Santa Anna agreed to withdraw Mexican troops and to support Texas independence with a border at the Rio Grande. The Mexican Congress later rejected the border terms, but the war was effectively over.</p>
+  </div>
+
+  <div class="event">
+    <h2>Why 1836 Matters</h2>
+    <p>In 1836, Texas gained its independence from Mexico and became the Republic of Texas. The sacrifices at the Alamo and Goliad, and the victory at San Jacinto, created a new nation that would later join the United States.</p>
+  </div>
+
+</div>
+
+<section style="max-width:900px;margin:40px auto;padding:20px;background:rgba(255,255,255,0.05);border-radius:12px;">
+  <h2 style="color:var(--accent);text-align:center;">Key People of the Revolution</h2>
+  <div class="people">
+    <div class="person"><strong>George Childress</strong><br>Author of the Texas Declaration of Independence</div>
+    <div class="person"><strong>Lorenzo de Zavala</strong><br>Helped write the first Texas Constitution; first vice president</div>
+    <div class="person"><strong>James Fannin</strong><br>Captured at Coleto Creek and executed at Goliad</div>
+    <div class="person"><strong>Sam Houston</strong><br>Commander of the Texan Army; defeated Santa Anna at San Jacinto</div>
+    <div class="person"><strong>Santa Anna</strong><br>Dictator of Mexico; led the siege of the Alamo; signed the Treaties of Velasco</div>
+    <div class="person"><strong>William B. Travis</strong><br>Co-commander of the Alamo; wrote the “Victory or Death” letter</div>
+    <div class="person"><strong>Juan Seguín</strong><br>Carried message from the Alamo; led Tejano unit at San Jacinto</div>
+  </div>
+</section>
+
+<footer>
+  <p>Created for visual learners | Texas Revolution 1835–1836</p>
+  <p>Hosted on GitHub Pages</p>
+</footer>
+
+<script>
+const narration = `Welcome to the Texas Revolution Timeline. In the 1820s and 1830s, growing tensions between Anglo-American settlers in Texas and the Mexican government led to revolution and the birth of the Republic of Texas.
+
+First, the Fredonian Rebellion of 1826 to 1827. Empresario Haden Edwards tried to secede from Mexico over a land grant dispute. The rebellion failed, but it marked the first talk of Texas separating from Mexico.
+
+Next, the Mier y Terán Report of 1828 to 1829. General Manuel Mier y Terán found that most people in East Texas were from the United States, did not speak Spanish, and did not practice Catholicism. He recommended sending Mexican troops, more Mexican and European immigration, and increased trade. This led Mexico to pass the Law of April 6, 1830.
+
+The Law of April 6, 1830 banned U.S. immigration to Texas, made bringing slaves illegal, and imposed tariffs. Settlers who depended on trade, wanted their families to join them, and feared slavery would be outlawed, grew angry.
+
+In 1832, trouble erupted at Anahuac over tariffs. A skirmish followed the arrests of William B. Travis and others. Texans retreated to Turtle Bayou and wrote the Turtle Bayou Resolutions on June 13, 1832. They pledged loyalty to Santa Anna, Mexico, and the Constitution of 1824.
+
+In 1833, Santa Anna was elected president as a federalist. But he later switched to the centralist party and became a dictator.
+
+Then, the arrest of Stephen F. Austin in 1833 to 1834. Austin suggested Texas form its own separate state government. He was arrested for treason and jailed for about eight months. Upon release, Austin decided Santa Anna was a dictator and that reconciliation was no longer an option.
+
+The open fighting began with the Battle of Gonzales in October 1835. Mexico tried to take back a cannon. Texans raised a flag saying Come and Take It. This was the first battle of the Texas Revolution.
+
+From February to March 1836, Santa Anna laid siege to the Alamo for 13 days. Almost all defenders were killed. Remember the Alamo became a powerful rallying cry.
+
+On February 24, 1836, William B. Travis wrote a letter asking for reinforcements, vowing never to surrender, and signing it Victory or Death.
+
+The defenders included Travis, James Bowie, David Crockett, and Tejanos. Survivor Susanna Dickinson carried the news.
+
+In March 1836 at Washington-on-the-Brazos, delegates signed the Texas Declaration of Independence and named Sam Houston commander.
+
+James Fannin surrendered after Coleto Creek. About 340 prisoners were executed at Goliad. Remember Goliad became another battle cry.
+
+On April 21, 1836, at the Battle of San Jacinto, Sam Houston surprised Santa Anna’s camp. The battle lasted only 18 minutes. Santa Anna was captured. Texas won its independence.
+
+On May 14, 1836, Santa Anna signed the Treaties of Velasco, agreeing to remove Mexican troops and support Texas independence with a border at the Rio Grande.
+
+In 1836, Texas gained its independence from Mexico.
+
+Thank you for exploring this timeline. Remember the Alamo, remember Goliad, and the spirit of independence.`;
+
+const playBtn = document.getElementById('playBtn');
+const stopBtn = document.getElementById('stopBtn');
+let utterance;
+
+playBtn.addEventListener('click', () => {
+  if (speechSynthesis.speaking) speechSynthesis.cancel();
+  utterance = new SpeechSynthesisUtterance(narration);
+  utterance.rate = 0.9;
+  utterance.pitch = 1;
+  utterance.lang = 'en-US';
+  speechSynthesis.speak(utterance);
+  playBtn.textContent = '🔊 Narrating...';
+  utterance.onend = () => { playBtn.textContent = '▶ Play Voiceover Narration'; };
+});
+
+stopBtn.addEventListener('click', () => {
+  speechSynthesis.cancel();
+  playBtn.textContent = '▶ Play Voiceover Narration';
+});
+
+document.querySelectorAll('.event').forEach((el, i) => {
+  el.style.animationDelay = (i * 0.15) + 's';
+});
+</script>
+</body>
+</html>
