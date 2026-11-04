@@ -139,33 +139,45 @@
     border: 1px solid var(--accent);
   }
   .game-section h2 { color: var(--accent); text-align: center; margin-top: 0; }
-  .match-container {
+  .question {
+    background: rgba(0,0,0,0.3);
+    padding: 16px;
+    margin: 14px 0;
+    border-radius: 10px;
+    border-left: 4px solid var(--primary);
+  }
+  .question p { margin: 0 0 10px 0; font-size: 1.05em; }
+  .blank {
+    display: inline-block;
+    min-width: 140px;
+    padding: 2px 8px;
+    margin: 0 4px;
+    background: rgba(201,162,39,0.2);
+    border-bottom: 2px solid var(--accent);
+    color: #ffd700;
+    font-weight: bold;
+  }
+  .options {
     display: flex;
-    gap: 20px;
     flex-wrap: wrap;
-    justify-content: center;
+    gap: 8px;
+    margin-top: 8px;
   }
-  .column {
-    flex: 1;
-    min-width: 280px;
-  }
-  .card {
-    background: rgba(139,0,0,0.25);
-    padding: 12px 16px;
-    margin: 8px 0;
-    border-radius: 8px;
+  .option {
+    background: rgba(139,0,0,0.35);
+    padding: 8px 14px;
+    border-radius: 6px;
     cursor: pointer;
     transition: all 0.2s;
     border: 2px solid transparent;
   }
-  .card:hover { background: rgba(139,0,0,0.4); }
-  .card.selected { border-color: var(--accent); background: rgba(201,162,39,0.3); }
-  .card.matched { background: rgba(0,128,0,0.4); border-color: #4caf50; cursor: default; }
-  .card.wrong { animation: shake 0.4s; background: rgba(139,0,0,0.6); }
+  .option:hover { background: rgba(139,0,0,0.55); }
+  .option.correct { background: rgba(0,128,0,0.5); border-color: #4caf50; cursor: default; }
+  .option.wrong { animation: shake 0.35s; background: rgba(180,0,0,0.5); }
   @keyframes shake {
     0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-6px); }
-    75% { transform: translateX(6px); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
   }
   .score { text-align: center; font-size: 1.1em; margin: 10px 0; color: #ffd700; }
   .reset-btn { display: block; margin: 15px auto; }
@@ -182,7 +194,6 @@
     .event { margin-left: 42px; }
     .event::before { left: -38px; }
     .controls { flex-direction: column; }
-    .match-container { flex-direction: column; }
   }
 </style>
 </head>
@@ -311,18 +322,15 @@
 </section>
 
 <section class="game-section" id="matchingGame">
-  <h2>Matching Game: Fill in the Blanks</h2>
-  <p style="text-align:center; color:#ddd;">Match the person or event to the correct description based on the notes. Click one from each column.</p>
-  <div class="score" id="score">Matches: 0 / 7</div>
-  <div class="match-container">
-    <div class="column" id="leftCol"></div>
-    <div class="column" id="rightCol"></div>
-  </div>
+  <h2>Fill-in-the-Blank Matching Game</h2>
+  <p style="text-align:center; color:#ddd;">Click the correct option displayed under each statement to fill in the blank.</p>
+  <div class="score" id="score">Correct: 0 / 7</div>
+  <div id="questions"></div>
   <button class="reset-btn" id="resetGame">Reset Game</button>
 </section>
 
 <footer>
-  <p>Created for visual learners | High-quality narration | Click events to jump | Matching Game included</p>
+  <p>Created for visual learners | High-quality narration | Click events to jump | Fill-in-the-Blank Game</p>
 </footer>
 
 <script>
@@ -377,101 +385,103 @@ const observer = new IntersectionObserver((entries) => {
 
 events.forEach(el => observer.observe(el));
 
-const pairs = [
-  { left: "George Childress", right: "Author of the Texas Declaration of Independence" },
-  { left: "Lorenzo de Zavala", right: "Helped write the first Texas Constitution; first vice president" },
-  { left: "James Fannin", right: "Captured at Coleto Creek and executed at Goliad" },
-  { left: "Sam Houston", right: "Commander of the Texan Army; defeated Santa Anna at San Jacinto" },
-  { left: "Santa Anna", right: "Dictator of Mexico; laid siege at the Alamo; signed the Treaty of Velasco" },
-  { left: "William B. Travis", right: "Co-commander of the Alamo; wrote “Victory or Death” letter" },
-  { left: "Juan Seguín", right: "Took message from the Alamo seeking help; led Tejano unit at San Jacinto" }
+const questions = [
+  {
+    text: "______ was the author of the Texas Declaration of Independence.",
+    answer: "George Childress",
+    options: ["George Childress", "Lorenzo de Zavala", "Sam Houston", "William B. Travis"]
+  },
+  {
+    text: "______ helped write the first Texas Constitution and became the first vice president.",
+    answer: "Lorenzo de Zavala",
+    options: ["Lorenzo de Zavala", "Juan Seguín", "James Fannin", "Santa Anna"]
+  },
+  {
+    text: "______ was captured at Coleto Creek and executed at Goliad.",
+    answer: "James Fannin",
+    options: ["James Fannin", "William B. Travis", "Sam Houston", "Juan Seguín"]
+  },
+  {
+    text: "______ was the commander of the Texan Army and defeated Santa Anna at San Jacinto.",
+    answer: "Sam Houston",
+    options: ["Sam Houston", "Santa Anna", "George Childress", "Lorenzo de Zavala"]
+  },
+  {
+    text: "______ was the dictator of Mexico, laid siege to the Alamo, and signed the Treaty of Velasco.",
+    answer: "Santa Anna",
+    options: ["Santa Anna", "Sam Houston", "James Fannin", "William B. Travis"]
+  },
+  {
+    text: "______ was co-commander of the Alamo and wrote the “Victory or Death” letter.",
+    answer: "William B. Travis",
+    options: ["William B. Travis", "Juan Seguín", "George Childress", "James Fannin"]
+  },
+  {
+    text: "______ took a message from the Alamo seeking help and later led the Tejano unit at San Jacinto.",
+    answer: "Juan Seguín",
+    options: ["Juan Seguín", "Lorenzo de Zavala", "Sam Houston", "Santa Anna"]
+  }
 ];
 
-let selectedLeft = null;
-let selectedRight = null;
-let matches = 0;
-const total = pairs.length;
+let correctCount = 0;
+const totalQ = questions.length;
 
 function shuffle(arr) {
-  for (let i = arr.length - 1; i > 0; i--) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
+    [a[i], a[j]] = [a[j], a[i]];
   }
-  return arr;
+  return a;
 }
 
 function initGame() {
-  matches = 0;
-  selectedLeft = null;
-  selectedRight = null;
-  document.getElementById('score').textContent = `Matches: 0 / ${total}`;
-  const leftCol = document.getElementById('leftCol');
-  const rightCol = document.getElementById('rightCol');
-  leftCol.innerHTML = '';
-  rightCol.innerHTML = '';
+  correctCount = 0;
+  document.getElementById('score').textContent = `Correct: 0 / ${totalQ}`;
+  const container = document.getElementById('questions');
+  container.innerHTML = '';
 
-  const leftItems = pairs.map((p, i) => ({ text: p.left, id: i }));
-  const rightItems = shuffle(pairs.map((p, i) => ({ text: p.right, id: i })));
-
-  leftItems.forEach(item => {
+  questions.forEach((q, idx) => {
     const div = document.createElement('div');
-    div.className = 'card';
-    div.textContent = item.text;
-    div.dataset.id = item.id;
-    div.dataset.side = 'left';
-    div.addEventListener('click', () => selectCard(div));
-    leftCol.appendChild(div);
-  });
+    div.className = 'question';
+    div.dataset.answered = 'false';
 
-  rightItems.forEach(item => {
-    const div = document.createElement('div');
-    div.className = 'card';
-    div.textContent = item.text;
-    div.dataset.id = item.id;
-    div.dataset.side = 'right';
-    div.addEventListener('click', () => selectCard(div));
-    rightCol.appendChild(div);
+    const p = document.createElement('p');
+    p.innerHTML = q.text.replace('______', '<span class="blank">______</span>');
+    div.appendChild(p);
+
+    const opts = document.createElement('div');
+    opts.className = 'options';
+    const shuffled = shuffle(q.options);
+    shuffled.forEach(optText => {
+      const btn = document.createElement('div');
+      btn.className = 'option';
+      btn.textContent = optText;
+      btn.addEventListener('click', () => handleAnswer(btn, optText, q.answer, div));
+      opts.appendChild(btn);
+    });
+    div.appendChild(opts);
+    container.appendChild(div);
   });
 }
 
-function selectCard(card) {
-  if (card.classList.contains('matched')) return;
-  const side = card.dataset.side;
-  if (side === 'left') {
-    if (selectedLeft) selectedLeft.classList.remove('selected');
-    selectedLeft = card;
-    card.classList.add('selected');
-  } else {
-    if (selectedRight) selectedRight.classList.remove('selected');
-    selectedRight = card;
-    card.classList.add('selected');
-  }
-  if (selectedLeft && selectedRight) {
-    checkMatch();
-  }
-}
-
-function checkMatch() {
-  if (selectedLeft.dataset.id === selectedRight.dataset.id) {
-    selectedLeft.classList.add('matched');
-    selectedRight.classList.add('matched');
-    selectedLeft.classList.remove('selected');
-    selectedRight.classList.remove('selected');
-    matches++;
-    document.getElementById('score').textContent = `Matches: ${matches} / ${total}`;
-    if (matches === total) {
-      setTimeout(() => alert('Great job! You matched all the people correctly!'), 300);
+function handleAnswer(btn, chosen, correct, questionDiv) {
+  if (questionDiv.dataset.answered === 'true') return;
+  const blank = questionDiv.querySelector('.blank');
+  if (chosen === correct) {
+    btn.classList.add('correct');
+    blank.textContent = correct;
+    blank.style.color = '#4caf50';
+    questionDiv.dataset.answered = 'true';
+    correctCount++;
+    document.getElementById('score').textContent = `Correct: ${correctCount} / ${totalQ}`;
+    if (correctCount === totalQ) {
+      setTimeout(() => alert('Excellent! You filled in all the blanks correctly!'), 400);
     }
   } else {
-    selectedLeft.classList.add('wrong');
-    selectedRight.classList.add('wrong');
-    setTimeout(() => {
-      selectedLeft.classList.remove('wrong', 'selected');
-      selectedRight.classList.remove('wrong', 'selected');
-    }, 500);
+    btn.classList.add('wrong');
+    setTimeout(() => btn.classList.remove('wrong'), 400);
   }
-  selectedLeft = null;
-  selectedRight = null;
 }
 
 document.getElementById('resetGame').addEventListener('click', initGame);
